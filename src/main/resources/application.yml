@@ -1,0 +1,13 @@
+spring:
+    resources:
+        static-locations: /META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,/WEB-INF/resources/
+    devtools:
+        #livereload:
+        #    enabled: true #是否支持livereload
+        restart:
+            enabled: true  #设置开启热部署
+            additional-paths: resources/**,static/**,templates/**
+server:
+    port: 8088
+
+
