@@ -9,6 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 
 public class NettyClient {
@@ -32,6 +35,7 @@ public class NettyClient {
      */
     private NettyClient() {
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 connect();
             }
@@ -104,8 +108,31 @@ public class NettyClient {
         nettyClient.connect();
         Channel channel = NettyClient.getChannel();
         boolean isWritable = channel.isWritable();
-        if(isWritable){
-            channel.writeAndFlush("模拟客户端发送消息");
+        if(channel == null){
+            return;
+        }
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        if (isWritable) {
+            while (true) {
+                String name;
+                try {
+                    name = console.readLine();
+                    if ("exit".equals(name)) {
+                        System.exit(0);
+                    }
+//                    client.send(name);
+                    if (!channel.isActive()) {
+                        nettyClient.reConnect();
+                    }
+                    channel.writeAndFlush(name);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+//        if(isWritable){
+//            channel.writeAndFlush("模拟客户端发送消息");
 //            PkgDataBean bean = new PkgDataBean();
 //            bean.setCmd((byte) 0x01);
 //            bean.setData("hello,world".toString());
@@ -135,7 +162,7 @@ public class NettyClient {
                 e.printStackTrace();
             }*/
 
-        }
+//        }
 
     }
 }

@@ -13,6 +13,7 @@ public class NettyServerApp implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        Thread.sleep(5000);
         this.nettyServer.startServer();
     }
 }

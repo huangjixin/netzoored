@@ -17,7 +17,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
         System.out.println("收到了解码器处理过的数据：" + o.toString());
-        channelHandlerContext.writeAndFlush("服务端发来信息，已经和客户端建立起来长连接了");
+        channelHandlerContext.writeAndFlush("服务端发来信息，已经和客户端建立起来长连接了,你发的信息是："+o.toString());
 //        Log.d(TAG, );
     }
 
